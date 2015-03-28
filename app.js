@@ -1,4 +1,5 @@
 var commander = require('commander');
+var chalk = require('chalk');
 
 commander
   .version('0.1.0')
@@ -15,7 +16,7 @@ parameters.iterations = commander.iterations === null ? 1 : commander.iterations
 parameters.viewport = commander.viewport === null ? ["1024", "768"] : commander.viewport.split("x");
 
 if(parameters.url === undefined) {
-    console.log("Please define an url to test with -u.");
+    console.log(chalk.red.bold("Please define an url to test with " + chalk.underline("-u")));
 } else {
-    console.log("Start testing the load-time of " + parameters.url);
+    console.log(chalk.green("Start testing the load-time of " + parameters.url));
 }
