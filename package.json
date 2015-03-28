@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/rotespferd/website-performance-testing",
   "dependencies": {
+    "commander": "^2.7.1",
     "phantomjs": "^1.9.16"
   }
 }
