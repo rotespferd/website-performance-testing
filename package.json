@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/rotespferd/website-performance-testing/issues"
   },
-  "homepage": "https://github.com/rotespferd/website-performance-testing"
+  "homepage": "https://github.com/rotespferd/website-performance-testing",
+  "dependencies": {
+    "phantomjs": "^1.9.16"
+  }
 }
