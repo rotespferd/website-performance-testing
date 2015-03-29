@@ -4,7 +4,7 @@
   "description": "Tool for testing website performance.",
   "main": "node app.js",
   "scripts": {
-    "phantomjs": "./node_modules/.bin/phantomjs app.js",
+    "phantomjs": "./node_modules/.bin/phantomjs phantom-loadtest.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,6 +25,7 @@
   "dependencies": {
     "chalk": "^1.0.0",
     "commander": "^2.7.1",
+    "pageres": "^1.2.2",
     "phantomjs": "^1.9.16"
   }
 }
