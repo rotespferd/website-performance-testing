@@ -20,3 +20,11 @@ if(parameters.url === undefined) {
 } else {
     console.log(chalk.green("Start testing the load-time of " + parameters.url));
 }
+
+loadTesting(parameters.url, parameters.iterations, parameters.viewport);
+
+function loadTesting(url, iterations, viewport) {
+    for(var i = 1; i <= iterations; i++) {
+        console.log("Do iteration " + i);
+    }
+}
