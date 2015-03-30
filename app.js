@@ -1,6 +1,9 @@
 var commander = require('commander');
 var chalk = require('chalk');
 var Pageres = require('pageres');
+var exec = require('child_process').exec;
+
+var loadtestCommand = './node_modules/.bin/phantomjs phantom-loadtest.js';
 
 // TODO: add toggle for screenshot
 commander
@@ -29,7 +32,22 @@ takeScreenshot(parameters.url, parameters.viewport);
 function loadTesting(url, iterations, viewport) {
     for(var i = 1; i <= iterations; i++) {
         console.log("Do iteration " + i);
+        // TODO: make this synchron
+        launchProcess(url, viewport);
     }
+}
+
+function launchProcess(url, viewport) {
+    var child;
+    var viewportString = viewport[0] + ' ' + viewport[1];
+
+    child = exec(loadtestCommand + ' ' + url + ' ' + viewportString,
+    function (error, stdout, stderr) {
+        console.log('stdout: ' + stdout);
+        if (error !== null) {
+            console.log('exec error: ' + error);
+        }
+    });
 }
 
 function takeScreenshot(url, viewport) {
