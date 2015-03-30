@@ -25,7 +25,7 @@ parameters.viewport = commander.viewport === null ? ["1024", "768"] : commander.
 if(parameters.url === undefined) {
     console.log(chalk.red.bold("Please define an url to test with " + chalk.underline("-u")));
 } else {
-    console.log(chalk.green("Start testing the load-time of " + parameters.url));
+    console.log(chalk.green("Start testing the load-time of " + parameters.url + " with the viewport " + parameters.viewport));
 }
 
 loadTesting(parameters.url, parameters.iterations, parameters.viewport, function() {
@@ -45,8 +45,6 @@ function loadTesting(url, iterations, viewport, callbackFunc) {
     };
 
     for(var i = 1; i <= iterations; i++) {
-        console.log("Start iteration " + i);
-        // TODO: make this synchron
         functionArray.push(runFunc);
     }
 
@@ -55,7 +53,7 @@ function loadTesting(url, iterations, viewport, callbackFunc) {
         function(err, results) {
             var sum = _.reduce(results, function(memo, num) { console.log(num + "ms"); return memo + parseInt(num); }, 0);
             console.log("It took " + sum + "ms");
-            console.log("The average is " + (sum/results.length));
+            console.log("The average is " + (sum/results.length) + "ms");
             callbackFunc();
         }
     );
@@ -69,7 +67,6 @@ function launchProcess(url, viewport, callback) {
 
     child = exec(loadtestCommand + ' ' + url + ' ' + viewportString,
     function (error, stdout, stderr) {
-        // console.log('Loadtime: ' + stdout);
         if (error !== null) {
             console.log('exec error: ' + error);
         } else {
