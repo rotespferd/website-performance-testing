@@ -5,8 +5,14 @@ system = require('system');
 // set parameters
 
 var address = system.args[1];
+var viewportWidth = system.args[2];
+var viewportHeight = system.args[3];
 
-console.log("Test the address " + address);
+// set the viewport
+page.viewportSize = {
+    width: viewportWidth,
+    height: viewportHeight,
+};
 
 var time = Date.now();
 page.open(address, function(status) {

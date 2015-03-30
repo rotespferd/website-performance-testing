@@ -2,6 +2,7 @@ var commander = require('commander');
 var chalk = require('chalk');
 var Pageres = require('pageres');
 
+// TODO: add toggle for screenshot
 commander
 .version('0.1.0')
 .option('-u, --url <url>', 'The URL to the website to test.')
