@@ -1,6 +1,7 @@
 var commander = require('commander');
 var chalk = require('chalk');
 var Pageres = require('pageres');
+var async = require('async');
 var exec = require('child_process').exec;
 
 var loadtestCommand = './node_modules/.bin/phantomjs phantom-loadtest.js';
@@ -26,27 +27,52 @@ if(parameters.url === undefined) {
     console.log(chalk.green("Start testing the load-time of " + parameters.url));
 }
 
-loadTesting(parameters.url, parameters.iterations, parameters.viewport);
-takeScreenshot(parameters.url, parameters.viewport);
+loadTesting(parameters.url, parameters.iterations, parameters.viewport, function() {
+    takeScreenshot(parameters.url, parameters.viewport);
+});
 
-function loadTesting(url, iterations, viewport) {
+
+// ---------------------------------------------------
+// ----------------- helper --------------------------
+// ---------------------------------------------------
+
+function loadTesting(url, iterations, viewport, callbackFunc) {
+    var functionArray = [];
+
+    var runFunc = function(callbackAsync) {
+        launchProcess(url, viewport, callbackAsync);
+    };
+
     for(var i = 1; i <= iterations; i++) {
-        console.log("Do iteration " + i);
+        console.log("Start iteration " + i);
         // TODO: make this synchron
-        launchProcess(url, viewport);
+        functionArray.push(runFunc);
     }
+
+    async.series(
+        functionArray,
+        function(err, results) {
+            console.log(results);
+            callbackFunc();
+        }
+    );
+
+
 }
 
-function launchProcess(url, viewport) {
+function launchProcess(url, viewport, callback) {
     var child;
     var viewportString = viewport[0] + ' ' + viewport[1];
 
     child = exec(loadtestCommand + ' ' + url + ' ' + viewportString,
     function (error, stdout, stderr) {
-        console.log('stdout: ' + stdout);
+        // console.log('Loadtime: ' + stdout);
         if (error !== null) {
             console.log('exec error: ' + error);
+        } else {
+
         }
+        callback(null, stdout.replace("\n", ""));
     });
 }
 
