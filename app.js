@@ -2,6 +2,7 @@ var commander = require('commander');
 var chalk = require('chalk');
 var Pageres = require('pageres');
 var async = require('async');
+var _ = require('underscore');
 var exec = require('child_process').exec;
 
 var loadtestCommand = './node_modules/.bin/phantomjs phantom-loadtest.js';
@@ -52,7 +53,9 @@ function loadTesting(url, iterations, viewport, callbackFunc) {
     async.series(
         functionArray,
         function(err, results) {
-            console.log(results);
+            var sum = _.reduce(results, function(memo, num) { console.log(num + "ms"); return memo + parseInt(num); }, 0);
+            console.log("It took " + sum + "ms");
+            console.log("The average is " + (sum/results.length));
             callbackFunc();
         }
     );
